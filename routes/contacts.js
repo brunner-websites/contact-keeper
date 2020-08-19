@@ -26,33 +26,36 @@ router.get('/', auth, async (req, res) => {
 //  @route    POST    /api/contacts
 //  @desc     Add new contact
 //  @access   Private    
-router.post('/', [auth, [check('name', 'Name is required').not().isEmpty()]], async (req, res) => {
-  const errors = validationResult(req);
+router.post(
+  '/',
+  [auth, [check('name', 'Name is required').not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
 
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-  const { name, email, phone, type } = req.body;
+    const { name, email, phone, type } = req.body;
 
-  try {
-    const newContact = new Contact({
-      name,
-      email,
-      phone,
-      type,
-      user: req.user.id   // this is from the 'auth' middleware
-    })
+    try {
+      const newContact = new Contact({
+        name,
+        email,
+        phone,
+        type,
+        user: req.user.id   // this is from the 'auth' middleware
+      })
 
-    const contact = await newContact.save();
+      const contact = await newContact.save();
 
-    res.json(contact);
+      res.json(contact);
 
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Server Error");
-  }
-});
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error");
+    }
+  });
 
 //  @route    PUT
 //  @desc     Update contact

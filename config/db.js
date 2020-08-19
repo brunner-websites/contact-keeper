@@ -20,19 +20,4 @@ const connectDB = async () => {
 
 }
 
-/*
-const connectDB = () => {
-  mongoose.connect(db, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-  }).then(() => {
-    console.log('Mongo DB Connected')
-  }).catch(error => {
-    console.error(error.message);
-    process.exit(1);
-  });
-}
-*/
-
 module.exports = connectDB;
